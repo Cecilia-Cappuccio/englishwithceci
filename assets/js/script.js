@@ -20,29 +20,25 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   const themeToggleBtns = [
     document.getElementById('theme-toggle-desktop'),
-    document.getElementById('theme-toggle-mobile')
+    document.getElementById('theme-toggle-mobile'),
+    document.getElementById('theme-toggle-drawer')
   ].filter(Boolean);
 
-  function updateThemeUI(isDark) {
-    document.querySelectorAll('.theme-icon-light').forEach(el => {
-      el.classList.toggle('hidden', !isDark);
-    });
-    document.querySelectorAll('.theme-icon-dark').forEach(el => {
-      el.classList.toggle('hidden', isDark);
-    });
+  function syncThemeTitles(isDark) {
     const label = isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
     themeToggleBtns.forEach(btn => btn.setAttribute('title', label));
   }
 
-  // Sincronizar iconos al cargar la página
+  // Sincronizar estado inicial
   const isInitiallyDark = document.documentElement.classList.contains('dark');
-  updateThemeUI(isInitiallyDark);
+  syncThemeTitles(isInitiallyDark);
 
   themeToggleBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       const isDark = document.documentElement.classList.toggle('dark');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      updateThemeUI(isDark);
+      syncThemeTitles(isDark);
     });
   });
 
