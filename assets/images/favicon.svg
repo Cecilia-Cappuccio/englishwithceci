@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="50%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#EC4899" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#grad)" filter="url(#shadow)" />
+  <!-- Speech bubble shape -->
+  <path d="M18 20 C18 16.686 20.686 14 24 14 L40 14 C43.314 14 46 16.686 46 20 L46 34 C46 37.314 43.314 40 40 40 L28 40 L20 48 L20 40 C18.895 40 18 39.105 18 38 Z" fill="#ffffff" />
+  <!-- Letter C with playful heart / smile -->
+  <path d="M35 24 C31 23 27 25 26 29 C25 33 27 37 32 37 C34.5 37 36 35.8 37 34" fill="none" stroke="#6366F1" stroke-width="3.5" stroke-linecap="round" />
+  <circle cx="39" cy="24" r="2" fill="#EC4899" />
+</svg>

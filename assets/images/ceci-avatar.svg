@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EEF2FF"/>
+      <stop offset="50%" stop-color="#E0E7FF"/>
+      <stop offset="100%" stop-color="#FCE7F3"/>
+    </linearGradient>
+    <linearGradient id="hairGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A2810"/>
+      <stop offset="100%" stop-color="#2D1505"/>
+    </linearGradient>
+    <linearGradient id="shirtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="200" cy="200" r="185" fill="url(#bgGrad)"/>
+  
+  <!-- Decorative Background Elements -->
+  <circle cx="90" cy="90" r="12" fill="#818CF8" opacity="0.4"/>
+  <circle cx="320" cy="110" r="18" fill="#F472B6" opacity="0.3"/>
+  <circle cx="300" cy="280" r="10" fill="#6366F1" opacity="0.35"/>
+  <circle cx="100" cy="290" r="14" fill="#EC4899" opacity="0.3"/>
+
+  <!-- Back Hair -->
+  <path d="M120 170 C100 230 115 310 135 340 C145 280 150 240 155 210 Z" fill="url(#hairGrad)"/>
+  <path d="M280 170 C300 230 285 310 265 340 C255 280 250 240 245 210 Z" fill="url(#hairGrad)"/>
+
+  <!-- Body / Torso & Blouse -->
+  <path d="M110 395 C115 320 150 280 200 280 C250 280 285 320 290 395 Z" fill="url(#shirtGrad)" filter="url(#softShadow)"/>
+  <!-- Blouse V-neck accent -->
+  <path d="M185 280 L200 320 L215 280 Z" fill="#F8FAFC"/>
+  <!-- Subtle lapel/necklace -->
+  <circle cx="200" cy="305" r="4" fill="#F59E0B"/>
+
+  <!-- Neck -->
+  <path d="M180 230 L220 230 L220 285 C220 285 200 295 180 285 Z" fill="#F8C8A6"/>
+
+  <!-- Head Base -->
+  <ellipse cx="200" cy="190" rx="68" ry="78" fill="#FFDFC4" filter="url(#softShadow)"/>
+
+  <!-- Front Hair Style -->
+  <path d="M135 170 C130 110 180 90 200 90 C250 90 270 120 265 170 C255 130 235 115 190 120 C160 125 145 145 135 170 Z" fill="url(#hairGrad)"/>
+  <!-- Hair locks -->
+  <path d="M132 170 C130 200 138 240 148 260 C142 225 140 190 145 165 Z" fill="url(#hairGrad)"/>
+  <path d="M268 170 C270 200 262 240 252 260 C258 225 260 190 255 165 Z" fill="url(#hairGrad)"/>
+
+  <!-- Eyebrows -->
+  <path d="M160 162 C168 158 178 159 184 163" fill="none" stroke="#2D1505" stroke-width="3" stroke-linecap="round"/>
+  <path d="M216 163 C222 159 232 158 240 162" fill="none" stroke="#2D1505" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Eyes - friendly, smiling curves -->
+  <ellipse cx="172" cy="178" rx="8" ry="6" fill="#2D1505"/>
+  <circle cx="174" cy="176" r="2.5" fill="#FFFFFF"/>
+  <ellipse cx="228" cy="178" rx="8" ry="6" fill="#2D1505"/>
+  <circle cx="230" cy="176" r="2.5" fill="#FFFFFF"/>
+
+  <!-- Stylish Glasses -->
+  <rect x="154" y="166" width="36" height="26" rx="8" fill="none" stroke="#312E81" stroke-width="3.5"/>
+  <rect x="210" y="166" width="36" height="26" rx="8" fill="none" stroke="#312E81" stroke-width="3.5"/>
+  <path d="M190 177 L210 177" fill="none" stroke="#312E81" stroke-width="3.5"/>
+  <path d="M154 175 L142 173" fill="none" stroke="#312E81" stroke-width="3"/>
+  <path d="M246 175 L258 173" fill="none" stroke="#312E81" stroke-width="3"/>
+
+  <!-- Cheerful blush -->
+  <circle cx="158" cy="202" r="10" fill="#F87171" opacity="0.3"/>
+  <circle cx="242" cy="202" r="10" fill="#F87171" opacity="0.3"/>
+
+  <!-- Nose -->
+  <path d="M198 185 C201 195 204 198 200 202" fill="none" stroke="#E0A985" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Big warm smile -->
+  <path d="M184 216 C194 232 206 232 216 216" fill="none" stroke="#BE123C" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M187 218 C195 228 205 228 213 218 Z" fill="#FFFFFF"/>
+
+  <!-- Badge: Teacher / English with Ceci mini sticker -->
+  <g transform="translate(250, 260)" filter="url(#softShadow)">
+    <circle cx="45" cy="45" r="38" fill="#4F46E5"/>
+    <circle cx="45" cy="45" r="35" fill="#FFFFFF"/>
+    <!-- Speech bubble icon with UK/US spark -->
+    <path d="M36 38 C36 34 39 31 45 31 C51 31 54 34 54 38 C54 42 51 44 47 45 L47 49 L43 45 L38 45 C36.8 45 36 44 36 42.8 Z" fill="#6366F1"/>
+    <text x="45" y="58" font-family="'Segoe UI', Roboto, sans-serif" font-size="8" font-weight="bold" fill="#4F46E5" text-anchor="middle">TEACHER</text>
+  </g>
+</svg>
