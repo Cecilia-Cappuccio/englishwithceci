@@ -2,7 +2,7 @@
 
 Sitio web moderno, responsivo y optimizado para **GitHub Pages** para las clases de inglés de **Cecilia Cappuccio**.
 
-![English with Ceci Preview](assets/images/favicon.svg)
+![English with Ceci Preview](assets/images/plataforma-clase.jpeg)
 
 ---
 
