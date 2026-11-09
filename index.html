@@ -26,6 +26,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
@@ -54,10 +55,19 @@
     }
   </script>
 
+  <!-- Script para prevenir parpadeo en modo oscuro (anti-FOUC) -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/custom.css">
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 antialiased selection:bg-indigo-500 selection:text-white transition-colors duration-200">
 
   <!-- Barra de Notificación Superior -->
   <div class="bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 text-white text-xs md:text-sm font-medium py-2 px-4 text-center tracking-wide">
@@ -66,7 +76,7 @@
   </div>
 
   <!-- Header / Barra de Navegación -->
-  <header class="sticky top-0 z-40 glass-nav border-b border-slate-200/80 transition-all duration-300">
+  <header class="sticky top-0 z-40 glass-nav border-b border-slate-200/80 dark:border-slate-800/80 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
@@ -79,10 +89,10 @@
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="font-display font-extrabold text-xl text-slate-900 tracking-tight">
+              <span class="font-display font-extrabold text-xl text-slate-900 dark:text-white tracking-tight">
                 English with Ceci
               </span>
-              <span class="inline-flex items-center gap-1.5 bg-slate-100/90 border border-slate-200/90 rounded-md px-1.5 py-0.5 shadow-2xs" title="Inglés Británico & Americano">
+              <span class="inline-flex items-center gap-1.5 bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 rounded-md px-1.5 py-0.5 shadow-2xs" title="Inglés Británico & Americano">
                 <!-- Bandera Británica -->
                 <svg class="w-4 h-3 rounded-[2px] shadow-xs inline-block overflow-hidden" viewBox="0 0 60 36" aria-label="Bandera Reino Unido">
                   <clipPath id="uk-flag-nav"><rect width="60" height="36" rx="2"/></clipPath>
@@ -115,24 +125,36 @@
                 </svg>
               </span>
             </div>
-            <span class="block text-xs font-medium text-slate-500 -mt-0.5 tracking-wider uppercase">Por Cecilia Cappuccio</span>
+            <span class="block text-xs font-medium text-slate-500 dark:text-slate-400 -mt-0.5 tracking-wider uppercase">Por Cecilia Cappuccio</span>
           </div>
         </a>
 
         <!-- Enlaces Desktop -->
-        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-          <a href="#sobre-mi" class="hover:text-indigo-600 transition">Sobre mí</a>
-          <a href="#metodologia" class="hover:text-indigo-600 transition">Metodología</a>
-          <a href="#clases" class="hover:text-indigo-600 transition">Clases</a>
-          <a href="#quiz" class="hover:text-indigo-600 transition flex items-center gap-1 text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full text-xs">
+        <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600 dark:text-slate-300">
+          <a href="#sobre-mi" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Sobre mí</a>
+          <a href="#metodologia" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Metodología</a>
+          <a href="#clases" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Clases</a>
+          <a href="#quiz" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition flex items-center gap-1 text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-1 rounded-full text-xs">
             <span>✨ ¿Cuál elijo?</span>
           </a>
-          <a href="#testimonios" class="hover:text-indigo-600 transition">Testimonios</a>
-          <a href="#faq" class="hover:text-indigo-600 transition">Preguntas</a>
+          <a href="#testimonios" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Testimonios</a>
+          <a href="#faq" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">Preguntas</a>
         </nav>
 
-        <!-- Botón Contacto Desktop -->
-        <div class="hidden md:flex items-center gap-4">
+        <!-- Botones Desktop: Modo Oscuro + CTA -->
+        <div class="hidden md:flex items-center gap-3">
+          <!-- Toggle Modo Oscuro / Claro Desktop -->
+          <button id="theme-toggle-desktop" type="button" aria-label="Cambiar tema de color" class="p-2.5 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition focus:outline-none" title="Cambiar modo claro / oscuro">
+            <!-- Sol (se muestra en modo oscuro) -->
+            <svg class="theme-icon-light w-5 h-5 hidden text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <!-- Luna (se muestra en modo claro) -->
+            <svg class="theme-icon-dark w-5 h-5 hidden text-slate-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+
           <a href="#contacto" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-5 py-2.5 rounded-full shadow-md shadow-indigo-600/25 transition-all transform hover:-translate-y-0.5">
             <span>Agendá tu clase</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -141,9 +163,21 @@
           </a>
         </div>
 
-        <!-- Botón Hamburguesa Móvil -->
-        <div class="md:hidden flex items-center">
-          <button id="mobile-menu-btn" type="button" aria-expanded="false" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition focus:outline-none">
+        <!-- Botones Móvil: Tema y Hamburguesa -->
+        <div class="md:hidden flex items-center gap-1">
+          <!-- Toggle Tema Móvil -->
+          <button id="theme-toggle-mobile" type="button" aria-label="Cambiar tema de color" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition focus:outline-none" title="Cambiar modo claro / oscuro">
+            <!-- Sol -->
+            <svg class="theme-icon-light w-5 h-5 hidden text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <!-- Luna -->
+            <svg class="theme-icon-dark w-5 h-5 hidden text-slate-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+
+          <button id="mobile-menu-btn" type="button" aria-expanded="false" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition focus:outline-none">
             <span class="sr-only">Abrir menú</span>
             <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -158,13 +192,13 @@
     </div>
 
     <!-- Menú desplegable Móvil -->
-    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 pt-3 pb-6 space-y-2">
-      <a href="#sobre-mi" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600">Sobre Cecilia</a>
-      <a href="#metodologia" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600">Metodología de Clases</a>
-      <a href="#clases" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600">Modalidades y Cursos</a>
-      <a href="#quiz" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-semibold text-indigo-600 bg-indigo-50/70">✨ Test: Descubrí tu clase ideal</a>
-      <a href="#testimonios" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600">Testimonios de Alumnos</a>
-      <a href="#faq" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-600">Preguntas Frecuentes</a>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 pt-3 pb-6 space-y-2">
+      <a href="#sobre-mi" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400">Sobre Cecilia</a>
+      <a href="#metodologia" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400">Metodología de Clases</a>
+      <a href="#clases" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400">Modalidades y Cursos</a>
+      <a href="#quiz" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-semibold text-indigo-600 dark:text-indigo-300 bg-indigo-50/70 dark:bg-indigo-950/60">✨ Test: Descubrí tu clase ideal</a>
+      <a href="#testimonios" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400">Testimonios de Alumnos</a>
+      <a href="#faq" class="mobile-nav-link block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400">Preguntas Frecuentes</a>
       <div class="pt-3">
         <a href="#contacto" class="mobile-nav-link block w-full text-center bg-indigo-600 text-white font-semibold py-3 rounded-xl shadow-md">
           Escribime por WhatsApp
@@ -175,16 +209,16 @@
 
   <main>
     <!-- HERO SECTION -->
-    <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-gradient-to-b from-white via-indigo-50/30 to-slate-50">
+    <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-gradient-to-b from-white via-indigo-50/30 to-slate-50 dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950">
       <!-- Glow decorativo de fondo -->
-      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-r from-indigo-300/30 to-pink-300/30 blur-3xl pointer-events-none rounded-full"></div>
+      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-r from-indigo-300/30 to-pink-300/30 dark:from-indigo-900/30 dark:to-pink-900/20 blur-3xl pointer-events-none rounded-full"></div>
       
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           <!-- Contenido Texto -->
           <div class="lg:col-span-7 text-center lg:text-left space-y-6">
-            <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-indigo-100/90 border border-indigo-200 text-indigo-900 text-xs md:text-sm font-semibold tracking-wide shadow-xs">
+            <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-indigo-100/90 dark:bg-indigo-950/80 border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200 text-xs md:text-sm font-semibold tracking-wide shadow-xs">
               <span class="flex items-center gap-1.5">
                 <!-- Bandera Británica -->
                 <svg class="w-5 h-3.5 rounded-[3px] shadow-sm inline-block overflow-hidden" viewBox="0 0 60 36" aria-label="Bandera Reino Unido">
@@ -221,25 +255,25 @@
               <span>Inglés Británico & Americano • 100% Online</span>
             </div>
 
-            <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl text-slate-900 leading-[1.15] tracking-tight">
+            <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl text-slate-900 dark:text-white leading-[1.15] tracking-tight">
               Aprendé inglés real, ganá <span class="text-gradient">confianza</span> y hablá sin miedo.
             </h1>
 
-            <p class="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-              ¡Hola! Soy <strong class="text-slate-900 font-semibold">Cecilia Cappuccio</strong>. Te acompaño a desbloquear tu inglés con clases dinámicas, prácticas y pensadas a la medida de tus proyectos personales o profesionales.
+            <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              ¡Hola! Soy <strong class="text-slate-900 dark:text-white font-semibold">Cecilia Cappuccio</strong>. Te acompaño a desbloquear tu inglés con clases dinámicas, prácticas y pensadas a la medida de tus proyectos personales o profesionales.
             </p>
 
             <!-- Badges destacados -->
-            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2 text-xs sm:text-sm font-semibold text-slate-700">
-              <div class="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl shadow-sm border border-slate-200/70">
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">
+              <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3.5 py-2 rounded-xl shadow-sm border border-slate-200/70 dark:border-slate-800">
                 <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                 Conversación activa
               </div>
-              <div class="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl shadow-sm border border-slate-200/70">
+              <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3.5 py-2 rounded-xl shadow-sm border border-slate-200/70 dark:border-slate-800">
                 <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                 1 a 1 o Grupos Reducidos
               </div>
-              <div class="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl shadow-sm border border-slate-200/70">
+              <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3.5 py-2 rounded-xl shadow-sm border border-slate-200/70 dark:border-slate-800">
                 <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                 Material digital incluido
               </div>
@@ -253,7 +287,7 @@
                 </svg>
                 <span>¡Escribime y charlemos!</span>
               </a>
-              <a href="#clases" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-100 text-slate-800 font-semibold text-base px-6 py-4 rounded-2xl border border-slate-200/90 shadow-sm transition">
+              <a href="#clases" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-base px-6 py-4 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-sm transition">
                 <span>Ver modalidades de clases</span>
               </a>
             </div>
@@ -266,29 +300,29 @@
               <div class="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-pink-500 rounded-3xl transform rotate-3 scale-105 opacity-20 filter blur-xl"></div>
               
               <!-- Card Principal -->
-              <div class="relative bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100">
-                <div class="relative mx-auto w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-4 border-indigo-100 shadow-inner">
+              <div class="relative bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 dark:border-slate-800">
+                <div class="relative mx-auto w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-4 border-indigo-100 dark:border-indigo-950 shadow-inner">
                   <img src="assets/images/ceci-foto.jpeg" alt="Cecilia Cappuccio - Profesora de Inglés" class="w-full h-full object-cover object-center">
                 </div>
 
                 <div class="text-center mt-5">
-                  <span class="inline-block px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full uppercase tracking-wider mb-2">
+                  <span class="inline-block px-3 py-1 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-xs font-bold rounded-full uppercase tracking-wider mb-2">
                     English Teacher & Coach
                   </span>
-                  <h3 class="font-display font-bold text-2xl text-slate-900">Cecilia Cappuccio</h3>
-                  <p class="text-sm text-slate-500 mt-1">Clases dinámicas, empáticas y orientadas a resultados reales.</p>
+                  <h3 class="font-display font-bold text-2xl text-slate-900 dark:text-white">Cecilia Cappuccio</h3>
+                  <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Clases dinámicas, empáticas y orientadas a resultados reales.</p>
                 </div>
 
                 <!-- Tarjetita flotante de feature -->
-                <div class="mt-6 p-4 rounded-2xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100/80 flex items-center gap-3">
+                <div class="mt-6 p-4 rounded-2xl bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/50 dark:to-purple-950/50 border border-indigo-100/80 dark:border-indigo-900/60 flex items-center gap-3">
                   <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                   </div>
                   <div>
-                    <h4 class="text-xs font-bold text-indigo-950 uppercase tracking-wider">Metodología Comunicativa</h4>
-                    <p class="text-xs text-slate-600">Aprendé hablando de temas reales que te interesan.</p>
+                    <h4 class="text-xs font-bold text-indigo-950 dark:text-indigo-200 uppercase tracking-wider">Metodología Comunicativa</h4>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">Aprendé hablando de temas reales que te interesan.</p>
                   </div>
                 </div>
 
@@ -301,17 +335,17 @@
     </section>
 
     <!-- METODOLOGÍA / 4 PILARES -->
-    <section id="metodologia" class="py-20 bg-white border-y border-slate-200/60">
+    <section id="metodologia" class="py-20 bg-white dark:bg-slate-900 border-y border-slate-200/60 dark:border-slate-800">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center max-w-3xl mx-auto mb-16">
-          <span class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+          <span class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/70 px-3 py-1 rounded-full">
             El método English with Ceci
           </span>
-          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900 mt-3">
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white mt-3">
             Aprender inglés no tiene por qué ser aburrido ni intimidante
           </h2>
-          <p class="text-slate-600 mt-4 text-base sm:text-lg">
+          <p class="text-slate-600 dark:text-slate-300 mt-4 text-base sm:text-lg">
             Dejamos atrás las repeticiones mecánicas y las listas de verbos de memoria. Nos enfocamos en lo que realmente necesitás: comunicarte con seguridad.
           </p>
         </div>
@@ -319,45 +353,45 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           
           <!-- Pilar 1 -->
-          <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/70 hover:border-indigo-300 transition-all hover:shadow-lg group">
-            <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-xl mb-5 group-hover:scale-110 transition-transform">
+          <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 hover:border-indigo-300 dark:hover:border-indigo-500 transition-all hover:shadow-lg group">
+            <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xl mb-5 group-hover:scale-110 transition-transform">
               🗣️
             </div>
-            <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Hablar desde el primer día</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
+            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">Hablar desde el primer día</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               La práctica oral es el centro de cada clase. El objetivo principal es perder la vergüenza y ganar soltura desde el minuto uno.
             </p>
           </div>
 
           <!-- Pilar 2 -->
-          <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/70 hover:border-indigo-300 transition-all hover:shadow-lg group">
-            <div class="w-12 h-12 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center font-bold text-xl mb-5 group-hover:scale-110 transition-transform">
+          <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 hover:border-indigo-300 dark:hover:border-indigo-500 transition-all hover:shadow-lg group">
+            <div class="w-12 h-12 rounded-xl bg-pink-100 dark:bg-pink-950/70 text-pink-600 dark:text-pink-400 flex items-center justify-center font-bold text-xl mb-5 group-hover:scale-110 transition-transform">
               🎯
             </div>
-            <h3 class="font-display font-bold text-lg text-slate-900 mb-2">100% a tu medida</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
+            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">100% a tu medida</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               ¿Tenés una entrevista de trabajo en inglés? ¿Un viaje planeado? ¿O querés entender tus series favoritas? Adaptamos las clases a tu meta.
             </p>
           </div>
 
           <!-- Pilar 3 -->
-          <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/70 hover:border-indigo-300 transition-all hover:shadow-lg group">
-            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-xl mb-5 group-hover:scale-110 transition-transform">
+          <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 hover:border-indigo-300 dark:hover:border-indigo-500 transition-all hover:shadow-lg group">
+            <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-950/70 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-xl mb-5 group-hover:scale-110 transition-transform">
               ✨
             </div>
-            <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Espacio seguro y empático</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
+            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">Espacio seguro y empático</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               Equivocarse es la única manera de aprender. Acá no hay juicios ni presiones: te acompaño con paciencia y correcciones amables.
             </p>
           </div>
 
           <!-- Pilar 4 -->
-          <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/70 hover:border-indigo-300 transition-all hover:shadow-lg group">
-            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-xl mb-5 group-hover:scale-110 transition-transform">
+          <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 hover:border-indigo-300 dark:hover:border-indigo-500 transition-all hover:shadow-lg group">
+            <div class="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-950/70 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-xl mb-5 group-hover:scale-110 transition-transform">
               💻
             </div>
-            <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Material digital moderno</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
+            <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white mb-2">Material digital moderno</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               Videos reales, podcasts, artículos actuales y tableros interactivos compartidos. Sin libros pesados ni gastos adicionales.
             </p>
           </div>
@@ -368,14 +402,14 @@
     </section>
 
     <!-- SOBRE CECILIA CAPPUCCIO -->
-    <section id="sobre-mi" class="py-20 bg-slate-50">
+    <section id="sobre-mi" class="py-20 bg-slate-50 dark:bg-slate-950">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-3xl p-8 sm:p-12 md:p-16 border border-slate-200/80 shadow-sm">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 sm:p-12 md:p-16 border border-slate-200/80 dark:border-slate-800 shadow-sm">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
             <div class="lg:col-span-5 text-center">
               <div class="relative inline-block">
-                <img src="assets/images/ceci-foto.jpeg" alt="Cecilia Cappuccio" class="w-56 h-56 sm:w-64 sm:h-64 rounded-full mx-auto shadow-md border-4 border-indigo-50 object-cover object-center">
+                <img src="assets/images/ceci-foto.jpeg" alt="Cecilia Cappuccio" class="w-56 h-56 sm:w-64 sm:h-64 rounded-full mx-auto shadow-md border-4 border-indigo-50 dark:border-indigo-950 object-cover object-center">
                 <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-md whitespace-nowrap">
                   English with Ceci
                 </div>
@@ -383,34 +417,34 @@
             </div>
 
             <div class="lg:col-span-7 space-y-5">
-              <span class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+              <span class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/70 px-3 py-1 rounded-full">
                 Conocé a tu profesora
               </span>
-              <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900">
+              <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white">
                 ¡Hola! Soy Cecilia Cappuccio
               </h2>
-              <p class="text-slate-600 leading-relaxed text-base sm:text-lg">
-                Mi pasión es ayudar a las personas a descubrir que <strong class="text-slate-800">el inglés no es una barrera imposible</strong>, sino un puente que te conecta con nuevas oportunidades de trabajo, personas de todo el mundo y experiencias inolvidables.
+              <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-base sm:text-lg">
+                Mi pasión es ayudar a las personas a descubrir que <strong class="text-slate-800 dark:text-slate-100">el inglés no es una barrera imposible</strong>, sino un puente que te conecta con nuevas oportunidades de trabajo, personas de todo el mundo y experiencias inolvidables.
               </p>
-              <p class="text-slate-600 leading-relaxed text-base">
+              <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-base">
                 A lo largo de los años descubrí que la principal traba de la mayoría de los estudiantes no es la falta de vocabulario, sino el miedo al error y la vergüenza de sonar imperfectos. Por eso en mis clases creo un ambiente cálido, distendido y positivo donde podés expresarte con total tranquilidad.
               </p>
-              <div class="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-slate-100">
+              <div class="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-slate-100 dark:border-slate-800">
                 <div>
-                  <div class="font-display font-bold text-2xl text-indigo-600">100%</div>
-                  <div class="text-xs text-slate-500 font-medium">Clases Online</div>
+                  <div class="font-display font-bold text-2xl text-indigo-600 dark:text-indigo-400">100%</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Clases Online</div>
                 </div>
                 <div>
-                  <div class="font-display font-bold text-2xl text-pink-600">A tu ritmo</div>
-                  <div class="text-xs text-slate-500 font-medium">Sin presiones</div>
+                  <div class="font-display font-bold text-2xl text-pink-600 dark:text-pink-400">A tu ritmo</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Sin presiones</div>
                 </div>
                 <div>
-                  <div class="font-display font-bold text-2xl text-amber-500">+Confianza</div>
-                  <div class="text-xs text-slate-500 font-medium">Fluidez real</div>
+                  <div class="font-display font-bold text-2xl text-amber-500 dark:text-amber-400">+Confianza</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Fluidez real</div>
                 </div>
               </div>
               <div class="pt-3">
-                <a href="#contacto" class="inline-flex items-center gap-2 text-indigo-600 font-bold hover:text-indigo-700 text-sm">
+                <a href="#contacto" class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold hover:text-indigo-700 dark:hover:text-indigo-300 text-sm">
                   <span>Contactar a Cecilia directamente</span>
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                 </a>
@@ -423,13 +457,13 @@
     </section>
 
     <!-- TEST INTERACTIVO / QUIZ DE RECOMENDACIÓN -->
-    <section id="quiz" class="py-20 bg-gradient-to-b from-indigo-900 to-indigo-950 text-white relative overflow-hidden">
+    <section id="quiz" class="py-20 bg-gradient-to-b from-indigo-900 to-indigo-950 dark:from-slate-950 dark:to-indigo-950 text-white relative overflow-hidden">
       <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
 
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div class="text-center mb-12">
-          <span class="inline-block px-3 py-1 bg-indigo-800 text-indigo-200 text-xs font-bold rounded-full uppercase tracking-wider mb-3">
+          <span class="inline-block px-3 py-1 bg-indigo-800 dark:bg-indigo-900 text-indigo-200 text-xs font-bold rounded-full uppercase tracking-wider mb-3">
             Orientación Gratuita
           </span>
           <h2 class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-white">
@@ -441,106 +475,106 @@
         </div>
 
         <!-- Caja del Quiz -->
-        <div class="bg-white text-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl">
+        <div class="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 rounded-3xl p-6 sm:p-10 shadow-2xl border dark:border-slate-800">
           
           <!-- PASO 1 -->
           <div id="step-1" class="quiz-step active space-y-5">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-              <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Paso 1 de 3</span>
-              <span class="text-xs text-slate-400">10 segundos</span>
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+              <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Paso 1 de 3</span>
+              <span class="text-xs text-slate-400 dark:text-slate-500">10 segundos</span>
             </div>
-            <h3 class="font-display font-bold text-xl text-slate-900">¿Cuál es tu meta principal con el inglés?</h3>
+            <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">¿Cuál es tu meta principal con el inglés?</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <button type="button" data-step="1" data-field="objective" data-value="trabajo" class="quiz-option p-4 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 transition">
+              <button type="button" data-step="1" data-field="objective" data-value="trabajo" class="quiz-option p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40 text-left hover:border-indigo-500 dark:hover:border-indigo-400 transition">
                 <span class="text-2xl block mb-1">💼</span>
-                <span class="font-bold text-slate-900 block text-sm">Trabajo & Profesión</span>
-                <span class="text-xs text-slate-500">Entrevistas, reuniones, correos, clientes del exterior.</span>
+                <span class="font-bold text-slate-900 dark:text-white block text-sm">Trabajo & Profesión</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Entrevistas, reuniones, correos, clientes del exterior.</span>
               </button>
-              <button type="button" data-step="1" data-field="objective" data-value="fluidez" class="quiz-option p-4 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 transition">
+              <button type="button" data-step="1" data-field="objective" data-value="fluidez" class="quiz-option p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40 text-left hover:border-indigo-500 dark:hover:border-indigo-400 transition">
                 <span class="text-2xl block mb-1">💬</span>
-                <span class="font-bold text-slate-900 block text-sm">Fluidez & Conversación</span>
-                <span class="text-xs text-slate-500">Perder el miedo a hablar y entender cuando me hablan rápido.</span>
+                <span class="font-bold text-slate-900 dark:text-white block text-sm">Fluidez & Conversación</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Perder el miedo a hablar y entender cuando me hablan rápido.</span>
               </button>
-              <button type="button" data-step="1" data-field="objective" data-value="viajes" class="quiz-option p-4 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 transition">
+              <button type="button" data-step="1" data-field="objective" data-value="viajes" class="quiz-option p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40 text-left hover:border-indigo-500 dark:hover:border-indigo-400 transition">
                 <span class="text-2xl block mb-1">✈️</span>
-                <span class="font-bold text-slate-900 block text-sm">Viajes & Turismo</span>
-                <span class="text-xs text-slate-500">Manejarme en aeropuertos, hoteles, restaurantes y la calle.</span>
+                <span class="font-bold text-slate-900 dark:text-white block text-sm">Viajes & Turismo</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Manejarme en aeropuertos, hoteles, restaurantes y la calle.</span>
               </button>
-              <button type="button" data-step="1" data-field="objective" data-value="desde-cero" class="quiz-option p-4 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 transition">
+              <button type="button" data-step="1" data-field="objective" data-value="desde-cero" class="quiz-option p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40 text-left hover:border-indigo-500 dark:hover:border-indigo-400 transition">
                 <span class="text-2xl block mb-1">🌱</span>
-                <span class="font-bold text-slate-900 block text-sm">Aprender desde cero</span>
-                <span class="text-xs text-slate-500">Construir una base sólida, paso a paso y con paciencia.</span>
+                <span class="font-bold text-slate-900 dark:text-white block text-sm">Aprender desde cero</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Construir una base sólida, paso a paso y con paciencia.</span>
               </button>
             </div>
           </div>
 
           <!-- PASO 2 -->
           <div id="step-2" class="quiz-step space-y-5">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-              <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Paso 2 de 3</span>
-              <span class="text-xs text-slate-400">Casi listo</span>
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+              <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Paso 2 de 3</span>
+              <span class="text-xs text-slate-400 dark:text-slate-500">Casi listo</span>
             </div>
-            <h3 class="font-display font-bold text-xl text-slate-900">¿Cómo sentís tu nivel de inglés hoy?</h3>
+            <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">¿Cómo sentís tu nivel de inglés hoy?</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <button type="button" data-step="2" data-field="level" data-value="cero" class="quiz-option p-4 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 transition">
+              <button type="button" data-step="2" data-field="level" data-value="cero" class="quiz-option p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40 text-left hover:border-indigo-500 dark:hover:border-indigo-400 transition">
                 <span class="text-2xl block mb-1">🐣</span>
-                <span class="font-bold text-slate-900 block text-sm">Muy inicial / Principiante</span>
-                <span class="text-xs text-slate-500">Sé palabras sueltas pero me cuesta armar oraciones.</span>
+                <span class="font-bold text-slate-900 dark:text-white block text-sm">Muy inicial / Principiante</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Sé palabras sueltas pero me cuesta armar oraciones.</span>
               </button>
-              <button type="button" data-step="2" data-field="level" data-value="entiendo-no-hablo" class="quiz-option p-4 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 transition">
+              <button type="button" data-step="2" data-field="level" data-value="entiendo-no-hablo" class="quiz-option p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40 text-left hover:border-indigo-500 dark:hover:border-indigo-400 transition">
                 <span class="text-2xl block mb-1">🧠</span>
-                <span class="font-bold text-slate-900 block text-sm">Entiendo pero me bloqueo al hablar</span>
-                <span class="text-xs text-slate-500">Comprendo textos y audios, pero me da inseguridad hablar.</span>
+                <span class="font-bold text-slate-900 dark:text-white block text-sm">Entiendo pero me bloqueo al hablar</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Comprendo textos y audios, pero me da inseguridad hablar.</span>
               </button>
-              <button type="button" data-step="2" data-field="level" data-value="intermedio" class="quiz-option p-4 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 transition">
+              <button type="button" data-step="2" data-field="level" data-value="intermedio" class="quiz-option p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40 text-left hover:border-indigo-500 dark:hover:border-indigo-400 transition">
                 <span class="text-2xl block mb-1">📈</span>
-                <span class="font-bold text-slate-900 block text-sm">Intermedio</span>
-                <span class="text-xs text-slate-500">Me hago entender pero quiero ganar vocabulario y precisión.</span>
+                <span class="font-bold text-slate-900 dark:text-white block text-sm">Intermedio</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Me hago entender pero quiero ganar vocabulario y precisión.</span>
               </button>
-              <button type="button" data-step="2" data-field="level" data-value="avanzado" class="quiz-option p-4 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 transition">
+              <button type="button" data-step="2" data-field="level" data-value="avanzado" class="quiz-option p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40 text-left hover:border-indigo-500 dark:hover:border-indigo-400 transition">
                 <span class="text-2xl block mb-1">🚀</span>
-                <span class="font-bold text-slate-900 block text-sm">Avanzado</span>
-                <span class="text-xs text-slate-500">Busco perfeccionamiento, idioms y soltura natural.</span>
+                <span class="font-bold text-slate-900 dark:text-white block text-sm">Avanzado</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Busco perfeccionamiento, idioms y soltura natural.</span>
               </button>
             </div>
           </div>
 
           <!-- PASO 3 -->
           <div id="step-3" class="quiz-step space-y-5">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-              <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Paso 3 de 3</span>
-              <span class="text-xs text-slate-400">Última pregunta</span>
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+              <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Paso 3 de 3</span>
+              <span class="text-xs text-slate-400 dark:text-slate-500">Última pregunta</span>
             </div>
-            <h3 class="font-display font-bold text-xl text-slate-900">¿Qué formato preferís para cursar?</h3>
+            <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">¿Qué formato preferís para cursar?</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <button type="button" data-step="3" data-field="modality" data-value="individual" class="quiz-option p-4 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 transition">
+              <button type="button" data-step="3" data-field="modality" data-value="individual" class="quiz-option p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40 text-left hover:border-indigo-500 dark:hover:border-indigo-400 transition">
                 <span class="text-2xl block mb-1">👤</span>
-                <span class="font-bold text-slate-900 block text-sm">Clases 1 a 1 (Individuales)</span>
-                <span class="text-xs text-slate-500">100% de atención enfocada en mi ritmo y necesidades.</span>
+                <span class="font-bold text-slate-900 dark:text-white block text-sm">Clases 1 a 1 (Individuales)</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">100% de atención enfocada en mi ritmo y necesidades.</span>
               </button>
-              <button type="button" data-step="3" data-field="modality" data-value="grupo" class="quiz-option p-4 rounded-xl border-2 border-slate-200 text-left hover:border-indigo-500 transition">
+              <button type="button" data-step="3" data-field="modality" data-value="grupo" class="quiz-option p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/40 text-left hover:border-indigo-500 dark:hover:border-indigo-400 transition">
                 <span class="text-2xl block mb-1">👥</span>
-                <span class="font-bold text-slate-900 block text-sm">Grupo Reducido</span>
-                <span class="text-xs text-slate-500">Para debatir e interactuar con compañeros de mi nivel.</span>
+                <span class="font-bold text-slate-900 dark:text-white block text-sm">Grupo Reducido</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Para debatir e interactuar con compañeros de mi nivel.</span>
               </button>
             </div>
           </div>
 
           <!-- RESULTADO DEL QUIZ -->
           <div id="quiz-result" class="quiz-step space-y-6 text-center">
-            <div class="inline-block p-3 rounded-2xl bg-indigo-50 text-indigo-600 text-3xl">
+            <div class="inline-block p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 text-3xl">
               🎉
             </div>
-            <span id="result-badge" class="inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-emerald-100 text-emerald-800">
+            <span id="result-badge" class="inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300">
               Recomendación a Medida
             </span>
-            <h3 id="result-title" class="font-display font-extrabold text-2xl sm:text-3xl text-slate-900">
+            <h3 id="result-title" class="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">
               Clases Individuales 1 a 1
             </h3>
-            <p id="result-desc" class="text-slate-600 max-w-lg mx-auto text-base">
+            <p id="result-desc" class="text-slate-600 dark:text-slate-300 max-w-lg mx-auto text-base">
               El formato ideal para avanzar a tu propio ritmo con la guía exclusiva de Cecilia.
             </p>
-            <div id="result-user-summary" class="text-xs text-slate-500 font-mono bg-slate-50 p-2.5 rounded-lg border border-slate-200/80 max-w-md mx-auto">
+            <div id="result-user-summary" class="text-xs text-slate-500 dark:text-slate-400 font-mono bg-slate-50 dark:bg-slate-800/80 p-2.5 rounded-lg border border-slate-200/80 dark:border-slate-700 max-w-md mx-auto">
               Cargando tu resumen...
             </div>
             <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -548,7 +582,7 @@
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 <span>Consultar por WhatsApp con este plan</span>
               </a>
-              <button id="reset-quiz-btn" type="button" class="text-sm font-semibold text-slate-500 hover:text-slate-800 underline px-3 py-2">
+              <button id="reset-quiz-btn" type="button" class="text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white underline px-3 py-2">
                 Hacer el test de nuevo
               </button>
             </div>
@@ -560,17 +594,17 @@
     </section>
 
     <!-- MODALIDADES DE CLASES -->
-    <section id="clases" class="py-20 bg-slate-50">
+    <section id="clases" class="py-20 bg-slate-50 dark:bg-slate-950">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center max-w-3xl mx-auto mb-16">
-          <span class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+          <span class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/70 px-3 py-1 rounded-full">
             Propuestas Formativas
           </span>
-          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900 mt-3">
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white mt-3">
             Elegí la modalidad que mejor encaja con tus metas
           </h2>
-          <p class="text-slate-600 mt-3 text-base sm:text-lg">
+          <p class="text-slate-600 dark:text-slate-300 mt-3 text-base sm:text-lg">
             Todas las clases se dictan en vivo por Google Meet o Zoom, con seguimiento continuo.
           </p>
         </div>
@@ -578,19 +612,19 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           
           <!-- Card 1: 1 a 1 Individual -->
-          <div class="bg-white rounded-3xl p-8 border-2 border-indigo-500 shadow-xl relative flex flex-col justify-between">
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 border-2 border-indigo-500 dark:border-indigo-500 shadow-xl relative flex flex-col justify-between">
             <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
               Más elegido
             </div>
             <div>
-              <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-2xl mb-6">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-2xl mb-6">
                 👤
               </div>
-              <h3 class="font-display font-extrabold text-2xl text-slate-900 mb-2">Clases Individuales (1 a 1)</h3>
-              <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+              <h3 class="font-display font-extrabold text-2xl text-slate-900 dark:text-white mb-2">Clases Individuales (1 a 1)</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm mb-6 leading-relaxed">
                 Máxima personalización. Cecilia adapta el ritmo, los temas y la velocidad exclusivamente a tus necesidades.
               </p>
-              <ul class="space-y-3 text-sm text-slate-700 border-t border-slate-100 pt-6 mb-8">
+              <ul class="space-y-3 text-sm text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800 pt-6 mb-8">
                 <li class="flex items-center gap-2">
                   <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                   <span>Diagnóstico inicial de nivel gratuito</span>
@@ -615,16 +649,16 @@
           </div>
 
           <!-- Card 2: Business & Entrevistas -->
-          <div class="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
             <div>
-              <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-2xl mb-6">
+              <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/70 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-2xl mb-6">
                 💼
               </div>
-              <h3 class="font-display font-extrabold text-2xl text-slate-900 mb-2">Business English</h3>
-              <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+              <h3 class="font-display font-extrabold text-2xl text-slate-900 dark:text-white mb-2">Business English</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm mb-6 leading-relaxed">
                 Diseñado para profesionales que necesitan comunicarse en su empleo actual o preparar entrevistas laborales internacionales.
               </p>
-              <ul class="space-y-3 text-sm text-slate-700 border-t border-slate-100 pt-6 mb-8">
+              <ul class="space-y-3 text-sm text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800 pt-6 mb-8">
                 <li class="flex items-center gap-2">
                   <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                   <span>Simulacros de entrevistas de trabajo (mock interviews)</span>
@@ -639,22 +673,22 @@
                 </li>
               </ul>
             </div>
-            <a href="#contacto" class="block w-full text-center bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl shadow-md transition">
+            <a href="#contacto" class="block w-full text-center bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition">
               Consultar Business English
             </a>
           </div>
 
           <!-- Card 3: Grupos Reducidos / Conversación -->
-          <div class="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
             <div>
-              <div class="w-12 h-12 rounded-2xl bg-pink-50 text-pink-600 flex items-center justify-center font-bold text-2xl mb-6">
+              <div class="w-12 h-12 rounded-2xl bg-pink-50 dark:bg-pink-950/70 text-pink-600 dark:text-pink-400 flex items-center justify-center font-bold text-2xl mb-6">
                 👥
               </div>
-              <h3 class="font-display font-extrabold text-2xl text-slate-900 mb-2">Grupos Reducidos</h3>
-              <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+              <h3 class="font-display font-extrabold text-2xl text-slate-900 dark:text-white mb-2">Grupos Reducidos</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm mb-6 leading-relaxed">
                 Dinámicas interactivas de debate y conversación en grupos de hasta 4 alumnos con niveles similares.
               </p>
-              <ul class="space-y-3 text-sm text-slate-700 border-t border-slate-100 pt-6 mb-8">
+              <ul class="space-y-3 text-sm text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800 pt-6 mb-8">
                 <li class="flex items-center gap-2">
                   <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                   <span>Práctica colaborativa y role-playing</span>
@@ -669,7 +703,7 @@
                 </li>
               </ul>
             </div>
-            <a href="#contacto" class="block w-full text-center bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl shadow-md transition">
+            <a href="#contacto" class="block w-full text-center bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition">
               Consultar vacantes en grupos
             </a>
           </div>
@@ -680,17 +714,17 @@
     </section>
 
     <!-- TESTIMONIOS -->
-    <section id="testimonios" class="py-20 bg-white">
+    <section id="testimonios" class="py-20 bg-white dark:bg-slate-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center max-w-2xl mx-auto mb-16">
-          <span class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+          <span class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/70 px-3 py-1 rounded-full">
             Experiencias Reales
           </span>
-          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900 mt-3">
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white mt-3">
             Lo que dicen mis estudiantes
           </h2>
-          <p class="text-slate-600 mt-3 text-base">
+          <p class="text-slate-600 dark:text-slate-300 mt-3 text-base">
             Cada alumno tiene una historia diferente de superación con el idioma.
           </p>
         </div>
@@ -698,64 +732,64 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           <!-- Testimonio 1 -->
-          <div class="p-8 rounded-3xl bg-slate-50 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+          <div class="p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex text-amber-400 mb-4">
                 ★★★★★
               </div>
-              <p class="text-slate-700 italic text-sm leading-relaxed mb-6">
+              <p class="text-slate-700 dark:text-slate-300 italic text-sm leading-relaxed mb-6">
                 “Siempre me daba pánico hablar en inglés en las llamadas con clientes de afuera. Con Ceci sentí que por fin encontré un espacio donde nadie me juzga si me equivoco. En pocos meses di mi primera presentación 100% en inglés.”
               </p>
             </div>
-            <div class="flex items-center gap-3 border-t border-slate-200/70 pt-4">
+            <div class="flex items-center gap-3 border-t border-slate-200/70 dark:border-slate-700/60 pt-4">
               <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-sm">
                 SR
               </div>
               <div>
-                <h4 class="font-bold text-sm text-slate-900">Sofía Rodríguez</h4>
-                <p class="text-xs text-slate-500">Diseñadora UX & Alumna 1 a 1</p>
+                <h4 class="font-bold text-sm text-slate-900 dark:text-white">Sofía Rodríguez</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Diseñadora UX & Alumna 1 a 1</p>
               </div>
             </div>
           </div>
 
           <!-- Testimonio 2 -->
-          <div class="p-8 rounded-3xl bg-slate-50 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+          <div class="p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex text-amber-400 mb-4">
                 ★★★★★
               </div>
-              <p class="text-slate-700 italic text-sm leading-relaxed mb-6">
+              <p class="text-slate-700 dark:text-slate-300 italic text-sm leading-relaxed mb-6">
                 “Preparé un viaje de 3 meses al exterior con Ceci. Las clases no fueron teoría aburrida sino situaciones de viaje reales: pedir comida, entender indicaciones y no tener miedo a preguntar. Me cambió el viaje por completo.”
               </p>
             </div>
-            <div class="flex items-center gap-3 border-t border-slate-200/70 pt-4">
+            <div class="flex items-center gap-3 border-t border-slate-200/70 dark:border-slate-700/60 pt-4">
               <div class="w-10 h-10 rounded-full bg-pink-600 text-white font-bold flex items-center justify-center text-sm">
                 MG
               </div>
               <div>
-                <h4 class="font-bold text-sm text-slate-900">Martín Gómez</h4>
-                <p class="text-xs text-slate-500">Inglés para Viajeros</p>
+                <h4 class="font-bold text-sm text-slate-900 dark:text-white">Martín Gómez</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Inglés para Viajeros</p>
               </div>
             </div>
           </div>
 
           <!-- Testimonio 3 -->
-          <div class="p-8 rounded-3xl bg-slate-50 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+          <div class="p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex text-amber-400 mb-4">
                 ★★★★★
               </div>
-              <p class="text-slate-700 italic text-sm leading-relaxed mb-6">
+              <p class="text-slate-700 dark:text-slate-300 italic text-sm leading-relaxed mb-6">
                 “Ceci tiene una paciencia infinita y una calidez que te hace sentir que estás charlando con una amiga mientras aprendés. El material que usa es súper dinámico y actual. ¡La súper recomiendo!”
               </p>
             </div>
-            <div class="flex items-center gap-3 border-t border-slate-200/70 pt-4">
+            <div class="flex items-center gap-3 border-t border-slate-200/70 dark:border-slate-700/60 pt-4">
               <div class="w-10 h-10 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center text-sm">
                 LM
               </div>
               <div>
-                <h4 class="font-bold text-sm text-slate-900">Lucía Morales</h4>
-                <p class="text-xs text-slate-500">Inglés Conversacional</p>
+                <h4 class="font-bold text-sm text-slate-900 dark:text-white">Lucía Morales</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Inglés Conversacional</p>
               </div>
             </div>
           </div>
@@ -766,17 +800,17 @@
     </section>
 
     <!-- PREGUNTAS FRECUENTES (FAQ) -->
-    <section id="faq" class="py-20 bg-slate-50 border-t border-slate-200/60">
+    <section id="faq" class="py-20 bg-slate-50 dark:bg-slate-950 border-t border-slate-200/60 dark:border-slate-800">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center mb-16">
-          <span class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+          <span class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/70 px-3 py-1 rounded-full">
             Respuestas Claras
           </span>
-          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900 mt-3">
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white mt-3">
             Preguntas Frecuentes
           </h2>
-          <p class="text-slate-600 mt-3 text-base">
+          <p class="text-slate-600 dark:text-slate-300 mt-3 text-base">
             Todo lo que necesitás saber antes de comenzar tus clases con Ceci.
           </p>
         </div>
@@ -784,56 +818,56 @@
         <div class="space-y-4">
           
           <!-- FAQ 1 -->
-          <div class="faq-item bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm">
-            <button type="button" class="faq-button w-full px-6 py-5 text-left font-display font-bold text-base sm:text-lg text-slate-900 flex justify-between items-center focus:outline-none">
+          <div class="faq-item bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm">
+            <button type="button" class="faq-button w-full px-6 py-5 text-left font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white flex justify-between items-center focus:outline-none">
               <span>¿Cómo sé cuál es mi nivel antes de empezar?</span>
-              <svg class="faq-icon w-5 h-5 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+              <svg class="faq-icon w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <div class="faq-answer px-6 pb-5 text-sm text-slate-600 leading-relaxed">
+            <div class="faq-answer px-6 pb-5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               Antes de arrancar hacemos una breve charla diagnóstica gratuita de 15 minutos por videollamada. Nos conocemos, charlamos en español e inglés, evaluamos tu nivel actual y tus objetivos para diseñar el plan adecuado.
             </div>
           </div>
 
           <!-- FAQ 2 -->
-          <div class="faq-item bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm">
-            <button type="button" class="faq-button w-full px-6 py-5 text-left font-display font-bold text-base sm:text-lg text-slate-900 flex justify-between items-center focus:outline-none">
+          <div class="faq-item bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm">
+            <button type="button" class="faq-button w-full px-6 py-5 text-left font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white flex justify-between items-center focus:outline-none">
               <span>¿Qué plataforma usamos para las clases?</span>
-              <svg class="faq-icon w-5 h-5 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+              <svg class="faq-icon w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <div class="faq-answer px-6 pb-5 text-sm text-slate-600 leading-relaxed">
+            <div class="faq-answer px-6 pb-5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               Las clases son 100% online por <strong>Google Meet</strong> o <strong>Zoom</strong>. Solo necesitás una computadora, tablet o teléfono con conexión estable a internet, cámara y micrófono.
             </div>
           </div>
 
           <!-- FAQ 3 -->
-          <div class="faq-item bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm">
-            <button type="button" class="faq-button w-full px-6 py-5 text-left font-display font-bold text-base sm:text-lg text-slate-900 flex justify-between items-center focus:outline-none">
+          <div class="faq-item bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm">
+            <button type="button" class="faq-button w-full px-6 py-5 text-left font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white flex justify-between items-center focus:outline-none">
               <span>¿Tengo que comprar libros o manuales caros?</span>
-              <svg class="faq-icon w-5 h-5 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+              <svg class="faq-icon w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <div class="faq-answer px-6 pb-5 text-sm text-slate-600 leading-relaxed">
+            <div class="faq-answer px-6 pb-5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               ¡No! Todo el material didáctico está incluido en formato digital (videos, guías interactivas, podcasts, artículos y resúmenes compartidos en Google Drive o Notion).
             </div>
           </div>
 
           <!-- FAQ 4 -->
-          <div class="faq-item bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm">
-            <button type="button" class="faq-button w-full px-6 py-5 text-left font-display font-bold text-base sm:text-lg text-slate-900 flex justify-between items-center focus:outline-none">
+          <div class="faq-item bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm">
+            <button type="button" class="faq-button w-full px-6 py-5 text-left font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white flex justify-between items-center focus:outline-none">
               <span>¿Qué pasa si tengo que cancelar o reprogramar una clase?</span>
-              <svg class="faq-icon w-5 h-5 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+              <svg class="faq-icon w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <div class="faq-answer px-6 pb-5 text-sm text-slate-600 leading-relaxed">
+            <div class="faq-answer px-6 pb-5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               En las clases individuales podés reprogramar tu clase avisando con al menos 24 horas de anticipación para coordinar un nuevo día y horario disponible en el mes.
             </div>
           </div>
 
           <!-- FAQ 5 -->
-          <div class="faq-item bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm">
-            <button type="button" class="faq-button w-full px-6 py-5 text-left font-display font-bold text-base sm:text-lg text-slate-900 flex justify-between items-center focus:outline-none">
+          <div class="faq-item bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm">
+            <button type="button" class="faq-button w-full px-6 py-5 text-left font-display font-bold text-base sm:text-lg text-slate-900 dark:text-white flex justify-between items-center focus:outline-none">
               <span>¿Cuáles son las formas de pago?</span>
-              <svg class="faq-icon w-5 h-5 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+              <svg class="faq-icon w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <div class="faq-answer px-6 pb-5 text-sm text-slate-600 leading-relaxed">
+            <div class="faq-answer px-6 pb-5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               Podés abonar por transferencia bancaria, Mercado Pago o billeteras virtuales locales, y si estás fuera de Argentina contamos con opciones internacionales (PayPal / transferencias).
             </div>
           </div>
@@ -844,10 +878,10 @@
     </section>
 
     <!-- FORMULARIO DE CONTACTO / CTA FINAL -->
-    <section id="contacto" class="py-20 bg-white">
+    <section id="contacto" class="py-20 bg-white dark:bg-slate-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-purple-900 rounded-3xl p-8 sm:p-12 lg:p-16 text-white shadow-2xl">
+        <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-purple-900 dark:from-indigo-950 dark:via-slate-900 dark:to-purple-950 rounded-3xl p-8 sm:p-12 lg:p-16 text-white shadow-2xl border dark:border-slate-800">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             <!-- Texto Izquierda -->
@@ -888,24 +922,24 @@
 
             <!-- Formulario Derecha -->
             <div class="lg:col-span-7">
-              <div class="bg-white rounded-2xl p-6 sm:p-8 text-slate-800 shadow-xl">
-                <h3 class="font-display font-bold text-xl text-slate-900 mb-1">Enviá tu consulta</h3>
-                <p class="text-xs text-slate-500 mb-6">Completá tus datos y te redirigirá a WhatsApp con tu mensaje listo para enviar.</p>
+              <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 text-slate-800 dark:text-slate-100 shadow-xl border border-slate-100 dark:border-slate-800">
+                <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white mb-1">Enviá tu consulta</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Completá tus datos y te redirigirá a WhatsApp con tu mensaje listo para enviar.</p>
 
                 <form id="contact-form" class="space-y-4">
                   <div>
-                    <label for="form-name" class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre y Apellido *</label>
-                    <input type="text" id="form-name" required placeholder="Ej: María Pérez" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm outline-none transition">
+                    <label for="form-name" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Nombre y Apellido *</label>
+                    <input type="text" id="form-name" required placeholder="Ej: María Pérez" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-sm outline-none transition">
                   </div>
 
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label for="form-email" class="block text-xs font-bold text-slate-700 uppercase mb-1">Email</label>
-                      <input type="email" id="form-email" placeholder="tu@email.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm outline-none transition">
+                      <label for="form-email" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Email</label>
+                      <input type="email" id="form-email" placeholder="tu@email.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-sm outline-none transition">
                     </div>
                     <div>
-                      <label for="form-goal" class="block text-xs font-bold text-slate-700 uppercase mb-1">Objetivo Principal</label>
-                      <select id="form-goal" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm outline-none transition bg-white">
+                      <label for="form-goal" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Objetivo Principal</label>
+                      <select id="form-goal" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-sm outline-none transition">
                         <option value="Conversación y fluidez">Conversación y fluidez</option>
                         <option value="Trabajo y Business English">Trabajo y Business English</option>
                         <option value="Viajes y turismo">Viajes y turismo</option>
@@ -916,8 +950,8 @@
                   </div>
 
                   <div>
-                    <label for="form-level" class="block text-xs font-bold text-slate-700 uppercase mb-1">¿Cómo describirías tu nivel?</label>
-                    <select id="form-level" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm outline-none transition bg-white">
+                    <label for="form-level" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">¿Cómo describirías tu nivel?</label>
+                    <select id="form-level" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-sm outline-none transition">
                       <option value="Principiante (sé muy poco o nada)">Principiante (sé muy poco o nada)</option>
                       <option value="Básico / Intermedio (entiendo pero me cuesta hablar)">Básico / Intermedio (entiendo pero me cuesta hablar)</option>
                       <option value="Intermedio avanzado (busco fluidez)">Intermedio avanzado (busco fluidez)</option>
@@ -927,8 +961,8 @@
                   </div>
 
                   <div>
-                    <label for="form-message" class="block text-xs font-bold text-slate-700 uppercase mb-1">Mensaje o comentarios (opcional)</label>
-                    <textarea id="form-message" rows="3" placeholder="Contame qué días u horarios preferís o cualquier detalle que quieras mencionar..." class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm outline-none transition"></textarea>
+                    <label for="form-message" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Mensaje o comentarios (opcional)</label>
+                    <textarea id="form-message" rows="3" placeholder="Contame qué días u horarios preferís o cualquier detalle que quieras mencionar..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-sm outline-none transition"></textarea>
                   </div>
 
                   <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-base shadow-lg shadow-emerald-600/25 transition flex items-center justify-center gap-2">
@@ -987,14 +1021,14 @@
   <div class="fixed bottom-6 right-6 z-50 flex items-end gap-3">
     
     <!-- Burbuja de bienvenida emergente -->
-    <div id="wa-floating-toast" class="hidden relative max-w-xs bg-white text-slate-800 p-3.5 rounded-2xl shadow-xl border border-slate-100 items-start gap-2.5 animate-bounce-subtle">
-      <button id="close-wa-toast" class="absolute -top-2 -right-2 w-5 h-5 bg-slate-200 hover:bg-slate-300 text-slate-600 rounded-full flex items-center justify-center text-xs font-bold" title="Cerrar">✕</button>
-      <div class="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 border border-indigo-200">
+    <div id="wa-floating-toast" class="hidden relative max-w-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 p-3.5 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 items-start gap-2.5 animate-bounce-subtle">
+      <button id="close-wa-toast" class="absolute -top-2 -right-2 w-5 h-5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full flex items-center justify-center text-xs font-bold" title="Cerrar">✕</button>
+      <div class="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 border border-indigo-200 dark:border-indigo-800">
         <img src="assets/images/ceci-foto.jpeg" alt="Ceci" class="w-full h-full object-cover">
       </div>
       <div>
-        <p class="text-xs font-semibold text-slate-900">¡Hola! Soy Ceci 👋</p>
-        <p class="text-xs text-slate-500 mt-0.5">¿Tenés dudas sobre las clases? ¡Escribime y coordinamos!</p>
+        <p class="text-xs font-semibold text-slate-900 dark:text-white">¡Hola! Soy Ceci 👋</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">¿Tenés dudas sobre las clases? ¡Escribime y coordinamos!</p>
       </div>
     </div>
 

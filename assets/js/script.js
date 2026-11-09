@@ -15,7 +15,38 @@ document.addEventListener('DOMContentLoaded', () => {
     teacherName: 'Cecilia Cappuccio',
   };
 
-  // 1. Mobile Menu Toggle
+  // ==========================================
+  // 1. TEMA OSCURO / CLARO (DARK MODE)
+  // ==========================================
+  const themeToggleBtns = [
+    document.getElementById('theme-toggle-desktop'),
+    document.getElementById('theme-toggle-mobile')
+  ].filter(Boolean);
+
+  function updateThemeUI(isDark) {
+    document.querySelectorAll('.theme-icon-light').forEach(el => {
+      el.classList.toggle('hidden', !isDark);
+    });
+    document.querySelectorAll('.theme-icon-dark').forEach(el => {
+      el.classList.toggle('hidden', isDark);
+    });
+    const label = isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
+    themeToggleBtns.forEach(btn => btn.setAttribute('title', label));
+  }
+
+  // Sincronizar iconos al cargar la página
+  const isInitiallyDark = document.documentElement.classList.contains('dark');
+  updateThemeUI(isInitiallyDark);
+
+  themeToggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeUI(isDark);
+    });
+  });
+
+  // 2. Mobile Menu Toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   const menuIconOpen = document.getElementById('menu-icon-open');
@@ -91,9 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // Highlight selected in current step
       const currentContainer = opt.closest('.quiz-step');
       currentContainer.querySelectorAll('.quiz-option').forEach(el => {
-        el.classList.remove('border-indigo-600', 'bg-indigo-50');
+        el.classList.remove('border-indigo-600', 'bg-indigo-50', 'dark:border-indigo-400', 'dark:bg-indigo-950/40');
       });
-      opt.classList.add('border-indigo-600', 'bg-indigo-50');
+      opt.classList.add('border-indigo-600', 'bg-indigo-50', 'dark:border-indigo-400', 'dark:bg-indigo-950/40');
 
       // Move to next step with slight smooth delay
       setTimeout(() => {
@@ -169,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetQuizBtn.addEventListener('click', () => {
       quizData = { objective: '', level: '', modality: '' };
       document.querySelectorAll('.quiz-option').forEach(el => {
-        el.classList.remove('border-indigo-600', 'bg-indigo-50');
+        el.classList.remove('border-indigo-600', 'bg-indigo-50', 'dark:border-indigo-400', 'dark:bg-indigo-950/40');
       });
       document.querySelectorAll('.quiz-step').forEach(el => el.classList.remove('active'));
       const step1 = document.getElementById('step-1');

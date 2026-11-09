@@ -36,6 +36,7 @@ Publicar este sitio en internet es 100% gratuito y toma menos de 1 minuto:
 ## 🎨 Características del sitio
 
 - **Diseño Premium & Responsive**: Se adapta perfectamente a celulares, tablets y computadoras de escritorio.
+- **Modo Claro / Modo Oscuro**: Botón toggle interactivo (Sol/Luna) en el encabezado con guardado automático de la preferencia del usuario en el navegador y soporte para el tema del sistema operativo.
 - **Identidad de Marca**: Creado para **Cecilia Cappuccio** bajo el lema **English with Ceci**.
 - **Hero & Propuesta de Valor**: Presentación atractiva, beneficios destacados y llamadas a la acción claras.
 - **Quiz Interactivo ("¿Cuál es tu clase ideal?")**: Cuestionario interactivo en 3 pasos que recomienda la modalidad adecuada y arma un mensaje directo de WhatsApp personalizado.
