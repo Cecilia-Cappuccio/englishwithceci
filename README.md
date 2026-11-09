@@ -67,12 +67,8 @@ const CONFIG = {
 
 También podés cambiar el número en los enlaces `https://wa.me/...` que están en [`index.html`](index.html).
 
-### 2. Poner tu foto real
-Actualmente el sitio incluye una hermosa ilustración vectorial como avatar (`assets/images/ceci-avatar.svg`).
-Si querés usar tu foto real:
-1. Guardá tu foto en la carpeta `assets/images/` con el nombre `ceci-foto.jpg` (o `.png`).
-2. Abrí [`index.html`](index.html) y buscá `assets/images/ceci-avatar.svg`.
-3. Reemplazalo por `assets/images/ceci-foto.jpg`.
+### 2. Foto de Cecilia
+La foto real de Cecilia ya está integrada desde [`assets/images/ceci-foto.jpeg`](assets/images/ceci-foto.jpeg) y se muestra automáticamente en la portada, en la sección "Sobre mí", en la vista previa para redes sociales y en el botón flotante de WhatsApp. Si en el futuro querés cambiarla, simplemente reemplazá ese archivo con una nueva foto manteniendo el mismo nombre o actualizando la ruta en `index.html`.
 
 ### 3. Modificar textos, aranceles o agregar redes sociales
 Todo el contenido está en [`index.html`](index.html) con etiquetas claras y comentarios en español para que sea muy fácil de editar.
@@ -92,7 +88,8 @@ englishwithceci/
 │   │   └── script.js       # Interactividad (menú, quiz, FAQ, WhatsApp)
 │   └── images/
 │       ├── favicon.svg     # Ícono del sitio
-│       └── ceci-avatar.svg # Ilustración de Cecilia
+│       ├── ceci-foto.jpeg  # Foto oficial de Cecilia
+│       └── ceci-avatar.svg # Ilustración alternativa de Cecilia
 ```
 
 ---
