@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Reemplazar con el número de teléfono real (con código de país, ej: 54911xxxxxxxx para Argentina)
   // ==========================================
   const CONFIG = {
-    whatsappNumber: '5491123456789', // Cambiá este número por el de Cecilia
-    email: 'contacto@englishwithceci.com',
+    whatsappNumber: '5491167375706',
+    email: 'ceciliacappuccio05@gmail.com',
     instagram: 'englishwithceci',
     teacherName: 'Cecilia Cappuccio',
   };

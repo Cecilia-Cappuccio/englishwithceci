@@ -57,8 +57,8 @@ Publicar este sitio en internet es 100% gratuito y toma menos de 1 minuto:
 Abrí el archivo [`assets/js/script.js`](assets/js/script.js) y en las primeras líneas modificá:
 ```javascript
 const CONFIG = {
-  whatsappNumber: '5491123456789', // <-- Colocá acá tu número con código de país (sin el signo + ni espacios)
-  email: 'contacto@englishwithceci.com',
+  whatsappNumber: '5491167375706', // <-- Teléfono de Cecilia (Argentina)
+  email: 'ceciliacappuccio05@gmail.com',
   instagram: 'englishwithceci',
   teacherName: 'Cecilia Cappuccio',
 };
